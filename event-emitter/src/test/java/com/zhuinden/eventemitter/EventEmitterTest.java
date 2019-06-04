@@ -128,7 +128,7 @@ public class EventEmitterTest {
 
         EventSource.NotificationToken first = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
             @Override
-            public void onEventReceived(Events event) {
+            public void onEventReceived(@NonNull Events event) {
                 firstListener.add(event);
             }
         });
@@ -137,7 +137,7 @@ public class EventEmitterTest {
 
         EventSource.NotificationToken second = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
             @Override
-            public void onEventReceived(Events event) {
+            public void onEventReceived(@NonNull Events event) {
                 secondListener.add(event);
             }
         });
@@ -163,7 +163,7 @@ public class EventEmitterTest {
 
         EventSource.NotificationToken third = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
             @Override
-            public void onEventReceived(Events event) {
+            public void onEventReceived(@NonNull Events event) {
                 thirdListener.add(event);
             }
         });
@@ -172,4 +172,27 @@ public class EventEmitterTest {
 
         third.stopListening();
     }
+
+    @Test
+    public void multipleUnregisterAttemptsThrow() {
+        EventEmitter<Events> eventEmitter = new EventEmitter<>();
+
+        EventSource.NotificationToken token = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
+            @Override
+            public void onEventReceived(@NonNull Events event) {
+                // kweh
+            }
+        });
+
+        token.stopListening();
+
+        try {
+            token.stopListening();
+            Assert.fail();
+        } catch(IllegalStateException e) {
+            // OK!
+        }
+    }
+
+    // TODO: tests for multi-threading restraints like in CommandQueue
 }
