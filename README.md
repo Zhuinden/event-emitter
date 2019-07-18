@@ -8,9 +8,35 @@ To unregister, call `stopListening()` on the `NotificationToken` returned from `
 
 You can only emit events and listen for events and unregister observers on the thread where you created the `EventEmitter`.
 
+## Example
+
+``` kotlin
+// write
+private val emitter: EventEmitter<String> = EventEmitter()
+val events: EventSource<String> get() = emitter
+
+fun doSomething() {
+    emitter.emit("hello")
+}
+
+// read
+private var subscription: EventSource.NotificationToken? = null
+
+fun observe() {
+    subscription = events.startListening { event ->
+        showToast(event)
+    }
+}
+
+fun unsubscribe() {
+    subscription?.stopListening()
+}
+```
+
+
 ## Using Event Emitter
 
-In order to use Command Queue, you need to add jitpack to your project root gradle:
+In order to use Event Emitter, you need to add jitpack to your project root gradle:
 
     buildscript {
         repositories {
