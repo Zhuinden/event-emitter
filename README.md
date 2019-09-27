@@ -10,7 +10,7 @@ You can only emit events and listen for events and unregister observers on the t
 
 ## Using Event Emitter
 
-In order to use Command Queue, you need to add jitpack to your project root gradle:
+In order to use Event Emitter, you need to add jitpack to your project root gradle:
 
     buildscript {
         repositories {
@@ -30,7 +30,7 @@ In order to use Command Queue, you need to add jitpack to your project root grad
 
 and add the compile dependency to your module level gradle.
 
-    compile 'com.github.Zhuinden:event-emitter:0.0.1'
+    compile 'com.github.Zhuinden:event-emitter:1.0.0'
 
 ## License
 

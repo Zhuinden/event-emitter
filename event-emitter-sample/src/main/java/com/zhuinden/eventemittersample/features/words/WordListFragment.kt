@@ -8,12 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.zhuinden.eventemittersample.R
-import com.zhuinden.eventemittersample.utils.CompositeNotificationToken
 import com.zhuinden.eventemittersample.core.navigation.BaseFragment
-import com.zhuinden.eventemittersample.utils.lookup
-import com.zhuinden.eventemittersample.utils.onClick
-import com.zhuinden.eventemittersample.utils.safe
-import com.zhuinden.eventemittersample.utils.showToast
+import com.zhuinden.eventemittersample.utils.*
 import kotlinx.android.synthetic.main.word_list_view.*
 
 /**
@@ -51,25 +47,14 @@ class WordListFragment : BaseFragment() {
             actionHandler.onAddNewWordClicked(this)
         }
 
-        wordList.observe(this /*getViewLifecycle()*/, Observer { words ->
+        wordList.observe(this /*getViewLifecycleOwner()*/, Observer { words ->
             adapter.updateWords(words!!)
         })
-    }
 
-    private val notificationTokens = CompositeNotificationToken()
-
-    override fun onStart() {
-        super.onStart()
-        notificationTokens += controllerEvents.startListening { event ->
+        controllerEvents.observe(this /*getViewLifecycleOwner()*/) { event: WordController.Events ->
             when (event) {
                 is WordController.Events.NewWordAdded -> showToast("Added ${event.word}")
             }.safe()
         }
     }
-
-    override fun onStop() {
-        notificationTokens.stopListening()
-        super.onStop()
-    }
 }
-

@@ -10,6 +10,9 @@ class CompositeNotificationToken : EventSource.NotificationToken {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun add(notificationToken: EventSource.NotificationToken) {
+        if (threadId != Thread.currentThread().id) {
+            throw IllegalStateException("Cannot modify a composite notification token on a different thread where it was created")
+        }
         notificationTokens.add(notificationToken)
     }
 
