@@ -11,8 +11,6 @@ private class LiveEvent<T> constructor(
     private val lifecycleOwner: LifecycleOwner,
     private val observer: EventSource.EventObserver<T>
 ) : LifecycleObserver {
-    private val threadId = Thread.currentThread().id
-
     init {
         if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
             lifecycleOwner.lifecycle.addObserver(this)
