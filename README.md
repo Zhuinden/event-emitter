@@ -30,6 +30,7 @@ fun observe() {
 
 fun unsubscribe() {
     subscription?.stopListening()
+    subscription = null
 }
 ```
 
