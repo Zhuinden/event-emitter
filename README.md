@@ -30,9 +30,15 @@ fun observe() {
 
 fun unsubscribe() {
     subscription?.stopListening()
+    subscription = null
 }
 ```
 
+## Example with LifecycleOwner + observe
+
+Check the sample, the library itself does not depend on AndroidX.
+
+https://github.com/Zhuinden/event-emitter/blob/f2c64db6ca12988e1a03e09ee06de43ff3b3de4e/event-emitter-sample/src/main/java/com/zhuinden/eventemittersample/utils/LiveEvent.kt#L65
 
 ## Using Event Emitter
 
