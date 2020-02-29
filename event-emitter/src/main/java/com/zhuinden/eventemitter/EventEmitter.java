@@ -15,7 +15,7 @@
  */
 package com.zhuinden.eventemitter;
 
-import android.support.annotation.NonNull;
+import javax.annotation.Nonnull;
 
 import com.zhuinden.commandqueue.CommandQueue;
 
@@ -33,7 +33,7 @@ public class EventEmitter<E> implements EventSource<E> {
 
     private final CommandQueue.Receiver<E> notifyObservers = new CommandQueue.Receiver<E>() {
         @Override
-        public void receiveCommand(@NonNull E command) {
+        public void receiveCommand(@Nonnull E command) {
             for(int i = observers.size() - 1; i >= 0; i--) {
                 observers.get(i).onEventReceived(command);
             }
@@ -45,9 +45,9 @@ public class EventEmitter<E> implements EventSource<E> {
     /**
      * @inheritDoc
      */
-    @NonNull
+    @Nonnull
     @Override
-    public final EventSource.NotificationToken startListening(@NonNull final EventObserver<E> observer) {
+    public final EventSource.NotificationToken startListening(@Nonnull final EventObserver<E> observer) {
         if(threadId != Thread.currentThread().getId()) {
             throw new IllegalStateException("You should register observers only on the thread where the emitter was created");
         }
@@ -90,7 +90,7 @@ public class EventEmitter<E> implements EventSource<E> {
      *
      * @param event the event
      */
-    public final void emit(@NonNull E event) {
+    public final void emit(@Nonnull E event) {
         //noinspection ConstantConditions
         if(event == null) {
             throw new IllegalArgumentException("Event should not be null!");

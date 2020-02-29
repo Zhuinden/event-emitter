@@ -54,9 +54,9 @@ In order to use Event Emitter, you need to add jitpack to your project root grad
     }
 
 
-and add the compile dependency to your module level gradle.
+and add the dependency to your module level gradle.
 
-    compile 'com.github.Zhuinden:event-emitter:1.0.0'
+    implementation 'com.github.Zhuinden:event-emitter:1.1.0'
 
 ## License
 

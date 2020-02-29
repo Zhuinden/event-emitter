@@ -15,7 +15,7 @@
  */
 package com.zhuinden.eventemitter;
 
-import android.support.annotation.NonNull;
+import javax.annotation.Nonnull;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class EventEmitterTest {
 
         EventEmitter.EventObserver<Events> observer = new EventEmitter.EventObserver<Events>() {
             @Override
-            public void onEventReceived(@NonNull Events command) {
+            public void onEventReceived(@Nonnull Events command) {
                 if(command instanceof Events.First) {
                     firsts.item += 1;
                 } else if(command instanceof Events.Second) {
@@ -128,7 +128,7 @@ public class EventEmitterTest {
 
         EventSource.NotificationToken first = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
             @Override
-            public void onEventReceived(@NonNull Events event) {
+            public void onEventReceived(@Nonnull Events event) {
                 firstListener.add(event);
             }
         });
@@ -137,7 +137,7 @@ public class EventEmitterTest {
 
         EventSource.NotificationToken second = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
             @Override
-            public void onEventReceived(@NonNull Events event) {
+            public void onEventReceived(@Nonnull Events event) {
                 secondListener.add(event);
             }
         });
@@ -163,7 +163,7 @@ public class EventEmitterTest {
 
         EventSource.NotificationToken third = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
             @Override
-            public void onEventReceived(@NonNull Events event) {
+            public void onEventReceived(@Nonnull Events event) {
                 thirdListener.add(event);
             }
         });
@@ -179,7 +179,7 @@ public class EventEmitterTest {
 
         EventSource.NotificationToken token = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
             @Override
-            public void onEventReceived(@NonNull Events event) {
+            public void onEventReceived(@Nonnull Events event) {
                 // kweh
             }
         });

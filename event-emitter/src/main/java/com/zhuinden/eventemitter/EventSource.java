@@ -15,7 +15,7 @@
  */
 package com.zhuinden.eventemitter;
 
-import android.support.annotation.NonNull;
+import javax.annotation.Nonnull;
 
 /**
  * An event source represents something that can be observed.
@@ -36,7 +36,7 @@ public interface EventSource<E> {
          *
          * @param event the event
          */
-        void onEventReceived(@NonNull E event);
+        void onEventReceived(@Nonnull E event);
     }
 
     /**
@@ -55,6 +55,6 @@ public interface EventSource<E> {
      * @param eventObserver the observer
      * @return the notification token, used to unregister the observer.
      */
-    @NonNull
-    NotificationToken startListening(@NonNull EventObserver<E> eventObserver);
+    @Nonnull
+    NotificationToken startListening(@Nonnull EventObserver<E> eventObserver);
 }

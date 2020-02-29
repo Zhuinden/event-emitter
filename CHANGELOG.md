@@ -1,5 +1,14 @@
 # Change log
 
+-Event Emitter 1.1.0 (2020-02-29)
+--------------------------------
+
+- CHANGE: Remove dependency on `android.support.annotation.*`. With that, there should be no dependency from the library on either `android.support.*` or `androidx.*`.
+
+Replaced it using `javax.annotation.Nullable` and `javax.annotation.Nonnull` provided by `api("com.google.code.findbugs:jsr305:3.0.2")`.
+
+With these changes, Jetifier should no longer be needed when using Event-Emitter.
+
 -Event Emitter 1.0.0 (2019-09-27)
 --------------------------------
 - Update command-queue to 1.0.0 (which was just a version bump).
