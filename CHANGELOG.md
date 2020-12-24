@@ -1,5 +1,12 @@
 # Change log
 
+-Event Emitter 1.2.0 (2020-12-24)
+--------------------------------
+
+- UPDATE: Make pure JVM library.
+
+- UPDATE: Use command-queue 1.2.0 (pure JVM library).
+
 -Event Emitter 1.1.0 (2020-02-29)
 --------------------------------
 
