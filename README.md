@@ -57,6 +57,21 @@ In order to use Event Emitter, you need to add jitpack to your project root grad
         // ...
     }
 
+In newer projects, you need to also update the `settings.gradle` file's `dependencyResolutionManagement` block:
+
+```
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }  // <--
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+```
+
+
 
 and add the dependency to your module level gradle.
 
