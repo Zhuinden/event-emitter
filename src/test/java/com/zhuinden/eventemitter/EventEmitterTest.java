@@ -195,4 +195,75 @@ public class EventEmitterTest {
     }
 
     // TODO: tests for multi-threading restraints like in CommandQueue
+
+    @Test
+    public void setPausedTest() {
+        EventEmitter<Events> eventEmitter = new EventEmitter<>();
+
+        eventEmitter.setPaused(true);
+
+        eventEmitter.emit(new Events.First());
+
+        final List<Events> firstListener = new LinkedList<>();
+        final List<Events> secondListener = new LinkedList<>();
+        final List<Events> thirdListener = new LinkedList<>();
+
+        EventSource.NotificationToken first = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
+            @Override
+            public void onEventReceived(@Nonnull Events event) {
+                firstListener.add(event);
+            }
+        });
+
+        assertThat(firstListener).containsExactly();
+
+        EventSource.NotificationToken second = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
+            @Override
+            public void onEventReceived(@Nonnull Events event) {
+                secondListener.add(event);
+            }
+        });
+
+        assertThat(secondListener).containsExactly();
+
+        eventEmitter.emit(new Events.Second());
+
+        assertThat(secondListener).containsExactly();
+
+        eventEmitter.setPaused(false);
+
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second());
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second());
+
+        eventEmitter.setPaused(true);
+
+        eventEmitter.emit(new Events.Third());
+
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second());
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second());
+        assertThat(thirdListener).containsExactly();
+
+        EventSource.NotificationToken third = eventEmitter.startListening(new EventSource.EventObserver<Events>() {
+            @Override
+            public void onEventReceived(@Nonnull Events event) {
+                thirdListener.add(event);
+            }
+        });
+
+        eventEmitter.emit(new Events.Fourth());
+
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second());
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second());
+        assertThat(thirdListener).containsExactly();
+
+        eventEmitter.setPaused(false);
+
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second(), new Events.Third(), new Events.Fourth());
+        assertThat(secondListener).containsExactly(new Events.First(), new Events.Second(), new Events.Third(), new Events.Fourth());
+        assertThat(thirdListener).containsExactly(new Events.Third(), new Events.Fourth());
+
+        first.stopListening();
+        second.stopListening();
+        third.stopListening();
+    }
 }

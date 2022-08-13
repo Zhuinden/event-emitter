@@ -1,5 +1,10 @@
 # Change log
 
+-Event Emitter 1.3.0 (2022-08-13)
+--------------------------------
+
+- Expose `setPaused()` function. Using `setPaused(true)` will prevent events from being emitted, until `setPaused(false)` is called. 
+
 -Event Emitter 1.2.0 (2020-12-24)
 --------------------------------
 

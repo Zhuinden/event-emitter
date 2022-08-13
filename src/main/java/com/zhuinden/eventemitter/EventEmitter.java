@@ -102,4 +102,13 @@ public class EventEmitter<E> implements EventSource<E> {
 
         commandQueue.sendEvent(event);
     }
+
+    /**
+     * When paused, the event emitter will not emit any events until it is no longer paused
+     *
+     * @param paused if event emitter should be paused
+     */
+    public final void setPaused(boolean paused) {
+        commandQueue.setPaused(paused);
+    }
 }

@@ -75,11 +75,11 @@ dependencyResolutionManagement {
 
 and add the dependency to your module level gradle.
 
-    implementation 'com.github.Zhuinden:event-emitter:1.2.0'
+    implementation 'com.github.Zhuinden:event-emitter:1.3.0'
 
 ## License
 
-    Copyright 2019 Gabor Varadi
+    Copyright 2019-2022 Gabor Varadi
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
