@@ -2,7 +2,7 @@
 
 The `EventEmitter` lets you register multiple observers. While there is no observer, the events are enqueued.
 
-To unregister, call `stopListening()` on the `NotificationToken` returned from `eventEmitter.startListening`.
+To unregister, call `stopListening()` on the `NotificationToken` returned from `eventEmitter.startListening`. You can also use a `CompositeNotificationToken`.
 
 `EventEmitter` implements `EventSource`, so that the `EventEmitter` can be exposed as something to be observed, but cannot be emitted to from the outside.
 
@@ -75,11 +75,11 @@ dependencyResolutionManagement {
 
 and add the dependency to your module level gradle.
 
-    implementation 'com.github.Zhuinden:event-emitter:1.3.0'
+    implementation 'com.github.Zhuinden:event-emitter:1.4.0'
 
 ## License
 
-    Copyright 2019-2022 Gabor Varadi
+    Copyright 2019-2023 Gabor Varadi
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

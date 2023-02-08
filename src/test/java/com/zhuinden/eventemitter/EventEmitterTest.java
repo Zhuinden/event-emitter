@@ -27,16 +27,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EventEmitterTest {
     public abstract static class Events {
-        public static class First extends Events {
+        public static class First
+            extends Events {
         }
 
-        public static class Second extends Events {
+        public static class Second
+            extends Events {
         }
 
-        public static class Third extends Events {
+        public static class Third
+            extends Events {
         }
 
-        public static class Fourth extends Events {
+        public static class Fourth
+            extends Events {
+        }
+
+        public static class Fifth
+            extends Events {
+        }
+
+        public static class Sixth
+            extends Events {
         }
 
         @Override
@@ -194,8 +206,6 @@ public class EventEmitterTest {
         }
     }
 
-    // TODO: tests for multi-threading restraints like in CommandQueue
-
     @Test
     public void setPausedTest() {
         EventEmitter<Events> eventEmitter = new EventEmitter<>();
@@ -258,12 +268,102 @@ public class EventEmitterTest {
 
         eventEmitter.setPaused(false);
 
-        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second(), new Events.Third(), new Events.Fourth());
-        assertThat(secondListener).containsExactly(new Events.First(), new Events.Second(), new Events.Third(), new Events.Fourth());
+        assertThat(firstListener).containsExactly(new Events.First(),
+                                                  new Events.Second(),
+                                                  new Events.Third(),
+                                                  new Events.Fourth());
+        assertThat(secondListener).containsExactly(new Events.First(),
+                                                   new Events.Second(),
+                                                   new Events.Third(),
+                                                   new Events.Fourth());
         assertThat(thirdListener).containsExactly(new Events.Third(), new Events.Fourth());
 
         first.stopListening();
         second.stopListening();
         third.stopListening();
+    }
+
+    @Test
+    public void eventEmitterComposeNotificationTokenWorks() {
+        EventEmitter<Events> eventEmitter = new EventEmitter<>();
+
+        eventEmitter.emit(new Events.First());
+
+        final List<Events> firstListener = new LinkedList<>();
+        final List<Events> secondListener = new LinkedList<>();
+        final List<Events> thirdListener = new LinkedList<>();
+
+        final List<Events> lastListener = new LinkedList<>();
+
+        final CompositeNotificationToken compositeNotificationToken = new CompositeNotificationToken();
+
+        compositeNotificationToken.add(eventEmitter.startListening(new EventSource.EventObserver<Events>() {
+            @Override
+            public void onEventReceived(@Nonnull Events event) {
+                firstListener.add(event);
+            }
+        }));
+
+        assertThat(firstListener).containsExactly(new Events.First());
+
+        compositeNotificationToken.add(eventEmitter.startListening(new EventSource.EventObserver<Events>() {
+            @Override
+            public void onEventReceived(@Nonnull Events event) {
+                secondListener.add(event);
+            }
+        }));
+
+        eventEmitter.emit(new Events.Second());
+
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second());
+        assertThat(secondListener).containsExactly(new Events.Second());
+
+        eventEmitter.emit(new Events.Third());
+
+        assertThat(firstListener).containsExactly(new Events.First(), new Events.Second(), new Events.Third());
+        assertThat(secondListener).containsExactly(new Events.Second(), new Events.Third());
+
+        eventEmitter.emit(new Events.Fourth());
+
+        assertThat(firstListener).containsExactly(new Events.First(),
+                                                  new Events.Second(),
+                                                  new Events.Third(),
+                                                  new Events.Fourth());
+        assertThat(secondListener).containsExactly(new Events.Second(), new Events.Third(), new Events.Fourth());
+
+        compositeNotificationToken.add(eventEmitter.startListening(new EventSource.EventObserver<Events>() {
+            @Override
+            public void onEventReceived(@Nonnull Events event) {
+                thirdListener.add(event);
+            }
+        }));
+
+        assertThat(thirdListener).isEmpty();
+
+        eventEmitter.emit(new Events.Fifth());
+
+        assertThat(firstListener).containsExactly(new Events.First(),
+                                                  new Events.Second(),
+                                                  new Events.Third(),
+                                                  new Events.Fourth(),
+                                                  new Events.Fifth());
+        assertThat(secondListener).containsExactly(new Events.Second(),
+                                                   new Events.Third(),
+                                                   new Events.Fourth(),
+                                                   new Events.Fifth());
+        assertThat(thirdListener).containsExactly(new Events.Fifth());
+
+        compositeNotificationToken.stopListening();
+
+        eventEmitter.emit(new Events.Sixth());
+
+        compositeNotificationToken.add(eventEmitter.startListening(new EventSource.EventObserver<Events>() {
+            @Override
+            public void onEventReceived(@Nonnull Events event) {
+                lastListener.add(event);
+            }
+        }));
+
+        assertThat(lastListener).contains(new Events.Sixth());
     }
 }

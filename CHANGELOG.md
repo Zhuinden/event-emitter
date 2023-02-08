@@ -1,5 +1,10 @@
 # Change log
 
+-Event Emitter 1.4.0 (2023-02-08)
+--------------------------------
+
+- ADD: `CompositeNotificationToken`.
+
 -Event Emitter 1.3.0 (2022-08-13)
 --------------------------------
 
